@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { Bot, X, Send, Sparkles, BookOpen, CreditCard, ShoppingBag, Loader2 } from 'lucide-react';
-
 import { API_BASE_URL } from '@/lib/api';
 
 interface Message {
@@ -20,7 +19,7 @@ export const AIChatbotWidget: React.FC<AIChatbotWidgetProps> = ({ isOpen, onClos
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Assalam-o-Alaikum! I'm SherBot, your AI Shopping Assistant at SherBook.com. How can I help you find books, answer queries, or guide your checkout today?"
+      content: "Assalam-o-Alaikum! I'm SherBot, your AI Assistant at SherBook.com. How can I help you discover books or guide your order today?"
     }
   ]);
   const [input, setInput] = useState('');
@@ -74,7 +73,7 @@ export const AIChatbotWidget: React.FC<AIChatbotWidgetProps> = ({ isOpen, onClos
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 w-full max-w-md glass-panel rounded-3xl border-indigo-500/30 shadow-2xl overflow-hidden flex flex-col h-[520px]">
+    <div className="fixed bottom-6 right-6 z-50 w-full max-w-md glass-panel rounded-3xl border-slate-200 shadow-2xl overflow-hidden flex flex-col h-[520px] bg-white">
       
       {/* Header */}
       <div className="bg-gradient-to-r from-sky-600 to-indigo-600 p-4 text-white flex items-center justify-between">
@@ -95,7 +94,7 @@ export const AIChatbotWidget: React.FC<AIChatbotWidgetProps> = ({ isOpen, onClos
       </div>
 
       {/* Messages */}
-      <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-950/60">
+      <div className="flex-1 p-4 overflow-y-auto space-y-3 bg-slate-50">
         {messages.map((msg, idx) => (
           <div
             key={idx}
@@ -104,20 +103,20 @@ export const AIChatbotWidget: React.FC<AIChatbotWidgetProps> = ({ isOpen, onClos
             <div
               className={`max-w-[85%] p-3.5 rounded-2xl text-xs leading-relaxed ${
                 msg.role === 'user'
-                  ? 'bg-sky-600 text-white rounded-br-none'
-                  : 'bg-slate-900 border border-slate-800 text-slate-200 rounded-bl-none'
+                  ? 'bg-sky-600 text-white rounded-br-none shadow-sm'
+                  : 'bg-white border border-slate-200 text-slate-800 rounded-bl-none shadow-2xs'
               }`}
             >
               <p>{msg.content}</p>
               
               {/* Suggested books if present */}
               {msg.suggestedBooks && msg.suggestedBooks.length > 0 && (
-                <div className="mt-3 pt-2 border-t border-slate-800 space-y-2">
-                  <span className="text-[10px] uppercase font-bold text-sky-400">Suggested Books:</span>
+                <div className="mt-3 pt-2 border-t border-slate-200 space-y-2">
+                  <span className="text-[10px] uppercase font-bold text-sky-600">Suggested Books:</span>
                   {msg.suggestedBooks.map((b: any, bIdx: number) => (
-                    <div key={bIdx} className="p-2 bg-slate-950/80 rounded-lg flex items-center justify-between text-[11px]">
-                      <span className="font-medium text-white truncate max-w-[150px]">{b.title}</span>
-                      <span className="text-amber-400 font-bold">Rs. {b.price}</span>
+                    <div key={bIdx} className="p-2 bg-slate-100 rounded-lg flex items-center justify-between text-[11px]">
+                      <span className="font-bold text-slate-800 truncate max-w-[150px]">{b.title}</span>
+                      <span className="text-amber-600 font-bold">Rs. {b.price}</span>
                     </div>
                   ))}
                 </div>
@@ -127,8 +126,8 @@ export const AIChatbotWidget: React.FC<AIChatbotWidgetProps> = ({ isOpen, onClos
         ))}
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-slate-900 border border-slate-800 p-3 rounded-2xl text-xs text-slate-400 flex items-center gap-2">
-              <Loader2 className="w-4 h-4 animate-spin text-sky-400" />
+            <div className="bg-white border border-slate-200 p-3 rounded-2xl text-xs text-slate-500 flex items-center gap-2 shadow-2xs">
+              <Loader2 className="w-4 h-4 animate-spin text-sky-600" />
               <span>SherBot AI is thinking...</span>
             </div>
           </div>
@@ -136,41 +135,41 @@ export const AIChatbotWidget: React.FC<AIChatbotWidgetProps> = ({ isOpen, onClos
       </div>
 
       {/* Quick Prompts */}
-      <div className="p-2 bg-slate-900/90 border-t border-slate-800/60 flex items-center gap-1.5 overflow-x-auto text-[11px]">
+      <div className="p-2 bg-slate-100 border-t border-slate-200 flex items-center gap-1.5 overflow-x-auto text-[11px]">
         <button
           onClick={() => handleQuickQuestion("What payment methods do you support in Pakistan?")}
-          className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded-full text-slate-300 whitespace-nowrap flex items-center gap-1"
+          className="px-2.5 py-1 bg-white hover:bg-slate-200 rounded-full text-slate-700 border border-slate-200 whitespace-nowrap flex items-center gap-1"
         >
-          <CreditCard className="w-3 h-3 text-sky-400" /> Payments
+          <CreditCard className="w-3 h-3 text-sky-600" /> Payments
         </button>
         <button
           onClick={() => handleQuickQuestion("Recommend top books on Artificial Intelligence")}
-          className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded-full text-slate-300 whitespace-nowrap flex items-center gap-1"
+          className="px-2.5 py-1 bg-white hover:bg-slate-200 rounded-full text-slate-700 border border-slate-200 whitespace-nowrap flex items-center gap-1"
         >
-          <BookOpen className="w-3 h-3 text-amber-400" /> AI Books
+          <BookOpen className="w-3 h-3 text-amber-600" /> AI Books
         </button>
         <button
           onClick={() => handleQuickQuestion("How does free shipping work in Pakistan?")}
-          className="px-2.5 py-1 bg-slate-800 hover:bg-slate-700 rounded-full text-slate-300 whitespace-nowrap flex items-center gap-1"
+          className="px-2.5 py-1 bg-white hover:bg-slate-200 rounded-full text-slate-700 border border-slate-200 whitespace-nowrap flex items-center gap-1"
         >
-          <ShoppingBag className="w-3 h-3 text-emerald-400" /> Delivery
+          <ShoppingBag className="w-3 h-3 text-emerald-600" /> Delivery
         </button>
       </div>
 
       {/* Input */}
-      <div className="p-3 bg-slate-900 border-t border-slate-800 flex items-center gap-2">
+      <div className="p-3 bg-white border-t border-slate-200 flex items-center gap-2">
         <input
           type="text"
           placeholder="Ask SherBot anything..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-          className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white placeholder-slate-400 focus:outline-none focus:border-sky-500"
+          className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white"
         />
         <button
           onClick={handleSend}
           disabled={!input.trim() || isLoading}
-          className="p-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl transition-colors disabled:opacity-50"
+          className="p-2 bg-sky-600 hover:bg-sky-500 text-white rounded-xl transition-colors disabled:opacity-50 shadow-sm"
         >
           <Send className="w-4 h-4" />
         </button>

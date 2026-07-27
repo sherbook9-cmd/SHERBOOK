@@ -8,7 +8,6 @@ import {
   Heart, 
   Search, 
   Truck, 
-  LayoutDashboard, 
   Menu, 
   X,
   Bot
@@ -33,16 +32,16 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           
-          {/* Logo */}
+          {/* Brand Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-sky-500/30 group-hover:scale-105 transition-transform">
-              <Sparkles className="w-6 h-6 text-white" />
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-500 to-indigo-600 flex items-center justify-center shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform">
+              <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div>
               <span className="text-2xl font-extrabold tracking-tight gradient-text">
-                SherBook<span className="text-sky-400">.com</span>
+                SherBook<span className="text-sky-600">.com</span>
               </span>
-              <span className="block text-[10px] uppercase font-semibold tracking-widest text-slate-400 -mt-1">
+              <span className="block text-[10px] uppercase font-bold tracking-widest text-slate-500 -mt-1">
                 Pakistan's Smart AI Bookstore
               </span>
             </div>
@@ -54,14 +53,14 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
-                placeholder="Search books, authors, or ask AI (e.g. 'beginner Python books')..."
+                placeholder="Search books, authors, or ask AI..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-24 py-2.5 bg-slate-900/80 border border-slate-800 rounded-full text-sm text-slate-200 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all"
+                className="w-full pl-10 pr-24 py-2.5 bg-slate-100/80 border border-slate-200 rounded-full text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:bg-white focus:ring-2 focus:ring-sky-500/20 transition-all"
               />
               <Link 
                 href={`/books?q=${encodeURIComponent(searchQuery)}`}
-                className="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1 bg-sky-600 hover:bg-sky-500 text-white text-xs font-medium rounded-full transition-colors flex items-center gap-1"
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 px-3.5 py-1 bg-sky-600 hover:bg-sky-500 text-white text-xs font-semibold rounded-full transition-colors flex items-center gap-1 shadow-sm"
               >
                 <Sparkles className="w-3 h-3" />
                 Search
@@ -69,32 +68,31 @@ export const Navbar: React.FC<NavbarProps> = ({
             </div>
           </div>
 
-          {/* Right Action Icons */}
+          {/* Customer Navigation Actions (No Admin links visible here) */}
           <div className="hidden md:flex items-center gap-4">
             
             {/* AI Assistant Button */}
             <button
               onClick={onOpenChat}
-              className="flex items-center gap-2 px-3.5 py-2 bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/30 rounded-full text-xs font-semibold text-indigo-300 transition-all"
+              className="flex items-center gap-2 px-4 py-2 bg-indigo-50 hover:bg-indigo-100/80 border border-indigo-200 rounded-full text-xs font-bold text-indigo-700 transition-all shadow-sm"
             >
-              <Bot className="w-4 h-4 text-indigo-400 animate-pulse" />
+              <Bot className="w-4 h-4 text-indigo-600 animate-pulse" />
               <span>Ask SherBot AI</span>
             </button>
 
             {/* Order Tracking */}
             <Link 
               href="/orders/tracking" 
-              className="p-2 text-slate-300 hover:text-sky-400 transition-colors relative group"
+              className="p-2 text-slate-600 hover:text-sky-600 transition-colors relative group"
               title="Track Order"
             >
               <Truck className="w-5 h-5" />
-              <span className="sr-only">Track Order</span>
             </Link>
 
             {/* Wishlist */}
             <Link 
               href="/wishlist" 
-              className="p-2 text-slate-300 hover:text-pink-400 transition-colors relative"
+              className="p-2 text-slate-600 hover:text-pink-600 transition-colors relative"
               title="Wishlist"
             >
               <Heart className="w-5 h-5" />
@@ -105,78 +103,63 @@ export const Navbar: React.FC<NavbarProps> = ({
               )}
             </Link>
 
-            {/* Cart */}
+            {/* Cart Button */}
             <Link 
               href="/cart" 
-              className="flex items-center gap-2 px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-full font-medium text-sm transition-all shadow-lg shadow-sky-600/25"
+              className="flex items-center gap-2 px-4 py-2 bg-sky-600 hover:bg-sky-500 text-white rounded-full font-bold text-sm transition-all shadow-md shadow-sky-600/20"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Cart</span>
               {cartCount > 0 && (
-                <span className="bg-white text-sky-600 px-1.5 py-0.5 rounded-full text-xs font-bold">
+                <span className="bg-white text-sky-700 px-1.5 py-0.5 rounded-full text-xs font-extrabold">
                   {cartCount}
                 </span>
               )}
             </Link>
 
-            {/* Admin Dashboard link */}
-            <Link 
-              href="/admin/dashboard" 
-              className="px-3.5 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 rounded-full text-xs font-medium transition-colors flex items-center gap-1.5"
-            >
-              <LayoutDashboard className="w-3.5 h-3.5 text-sky-400" />
-              Admin
-            </Link>
-
           </div>
 
-          {/* Mobile menu trigger */}
+          {/* Mobile Drawer Trigger */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 text-slate-300 hover:text-white"
+            className="md:hidden p-2 text-slate-700 hover:text-slate-900"
           >
             {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden glass-panel border-b border-slate-800 px-4 pt-3 pb-6 space-y-3">
+        <div className="md:hidden glass-panel border-b border-slate-200 px-4 pt-3 pb-6 space-y-3">
           <div className="relative w-full mb-3">
             <input
               type="text"
               placeholder="Search or ask AI..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-slate-900 border border-slate-800 rounded-lg text-sm text-slate-200"
+              className="w-full pl-9 pr-4 py-2 bg-slate-100 border border-slate-200 rounded-xl text-sm text-slate-800"
             />
             <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
           </div>
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => { setIsMobileMenuOpen(false); onOpenChat?.(); }}
-              className="flex items-center justify-center gap-2 p-2.5 bg-indigo-600/20 border border-indigo-500/30 rounded-lg text-indigo-300 text-sm font-medium"
+              className="flex items-center justify-center gap-2 p-2.5 bg-indigo-50 border border-indigo-200 rounded-xl text-indigo-700 text-xs font-bold"
             >
               <Bot className="w-4 h-4" /> Ask SherBot AI
             </button>
             <Link
               href="/orders/tracking"
-              className="flex items-center justify-center gap-2 p-2.5 bg-slate-900 border border-slate-800 rounded-lg text-slate-300 text-sm font-medium"
+              className="flex items-center justify-center gap-2 p-2.5 bg-slate-100 border border-slate-200 rounded-xl text-slate-700 text-xs font-bold"
             >
-              <Truck className="w-4 h-4 text-sky-400" /> Track Order
+              <Truck className="w-4 h-4 text-sky-600" /> Track Order
             </Link>
             <Link
               href="/cart"
-              className="flex items-center justify-center gap-2 p-2.5 bg-sky-600 text-white rounded-lg text-sm font-medium col-span-2"
+              className="flex items-center justify-center gap-2 p-2.5 bg-sky-600 text-white rounded-xl text-xs font-bold col-span-2 shadow-sm"
             >
               <ShoppingBag className="w-4 h-4" /> View Cart ({cartCount})
-            </Link>
-            <Link
-              href="/admin/dashboard"
-              className="flex items-center justify-center gap-2 p-2.5 bg-slate-800 border border-slate-700 text-slate-300 rounded-lg text-sm font-medium col-span-2"
-            >
-              <LayoutDashboard className="w-4 h-4 text-sky-400" /> Admin Portal
             </Link>
           </div>
         </div>

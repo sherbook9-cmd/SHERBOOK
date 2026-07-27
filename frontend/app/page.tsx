@@ -5,8 +5,7 @@ import Link from 'next/link';
 import { HeroSection } from '@/components/HeroSection';
 import { BookCard, Book } from '@/components/BookCard';
 import { AICoverScannerModal } from '@/components/AICoverScannerModal';
-import { Sparkles, TrendingUp, Award, BookOpen, ArrowRight, Camera, FileSpreadsheet, Bot } from 'lucide-react';
-
+import { Sparkles, Award, BookOpen, ArrowRight, Camera, FileSpreadsheet } from 'lucide-react';
 import { API_BASE_URL } from '@/lib/api';
 
 export default function HomePage() {
@@ -15,7 +14,7 @@ export default function HomePage() {
   const [isScannerOpen, setIsScannerOpen] = useState(false);
 
   useEffect(() => {
-    // Fetch books from backend or fallback to demo dataset
+    // Fetch live catalog uploaded by book owner
     fetch(`${API_BASE_URL}/api/v1/books`)
       .then(res => res.json())
       .then(data => {
@@ -85,52 +84,49 @@ export default function HomePage() {
   };
 
   return (
-    <div className="space-y-16">
+    <div className="space-y-16 pb-12">
       
       {/* Hero Section */}
       <HeroSection onScanClick={() => setIsScannerOpen(true)} />
 
       {/* AI Superpowers Showcase */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="glass-panel p-8 rounded-3xl border-sky-500/20 relative overflow-hidden">
+        <div className="glass-panel p-8 rounded-3xl border-slate-200 shadow-sm relative overflow-hidden bg-white">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-sky-500/20 border border-sky-500/30 flex items-center justify-center text-sky-400">
+              <div className="w-12 h-12 rounded-2xl bg-sky-50 border border-sky-200 flex items-center justify-center text-sky-600">
                 <Sparkles className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-white">Natural Language AI Search</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <h3 className="text-lg font-bold text-slate-900">Natural Language AI Search</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
                 Powered by Google Gemini 768-dim vector embeddings (`text-embedding-004`). Search using natural phrases like "books on python programming".
               </p>
             </div>
 
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400">
+              <div className="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-600">
                 <Camera className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-white">AI Book Cover OCR Scanner</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
+              <h3 className="text-lg font-bold text-slate-900">AI Book Cover OCR Scanner</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
                 Upload or snap a photo of any book cover. Gemini Vision automatically detects title, author, ISBN, category, description, and release year.
               </p>
               <button
                 onClick={() => setIsScannerOpen(true)}
-                className="text-xs font-semibold text-purple-400 hover:text-purple-300 flex items-center gap-1"
+                className="text-xs font-bold text-purple-600 hover:text-purple-700 flex items-center gap-1"
               >
                 Try Cover Scanner →
               </button>
             </div>
 
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
                 <FileSpreadsheet className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-white">Excel Bulk Catalog Import</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Upload your inventory spreadsheets. Automated pandas engine cleans missing columns, deduplicates titles, and imports thousands of books in seconds.
+              <h3 className="text-lg font-bold text-slate-900">Excel Bulk Catalog Import</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Upload inventory spreadsheets. Automated pandas engine cleans missing columns, deduplicates titles, and imports thousands of books in seconds.
               </p>
-              <Link href="/admin/dashboard" className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 flex items-center gap-1">
-                Open Admin Portal →
-              </Link>
             </div>
           </div>
         </div>
@@ -140,12 +136,12 @@ export default function HomePage() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <div className="flex items-center gap-2 text-sky-400 font-bold text-xs uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-sky-600 font-bold text-xs uppercase tracking-wider mb-1">
               <Sparkles className="w-4 h-4" /> Handpicked Highlights
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Featured Books</h2>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Featured Books</h2>
           </div>
-          <Link href="/books" className="text-sm font-semibold text-sky-400 hover:text-sky-300 flex items-center gap-1">
+          <Link href="/books" className="text-sm font-bold text-sky-600 hover:text-sky-700 flex items-center gap-1">
             View All Catalog <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -159,43 +155,43 @@ export default function HomePage() {
 
       {/* Categories Bar */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="glass-panel p-8 rounded-3xl">
-          <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-            <BookOpen className="w-5 h-5 text-sky-400" /> Explore Popular Categories
+        <div className="glass-panel p-8 rounded-3xl bg-white border-slate-200">
+          <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-2">
+            <BookOpen className="w-5 h-5 text-sky-600" /> Explore Popular Categories
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <Link href="/books?category=ai-tech" className="p-4 rounded-2xl bg-slate-900/80 hover:bg-sky-950/60 border border-slate-800 hover:border-sky-500/40 transition-all text-center space-y-1 group">
+            <Link href="/books?category=ai-tech" className="p-4 rounded-2xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition-all text-center space-y-1 group">
               <span className="text-2xl">🤖</span>
-              <h3 className="text-sm font-bold text-white group-hover:text-sky-400">AI & Tech</h3>
-              <p className="text-[11px] text-slate-400">Python, Machine Learning, Web Dev</p>
+              <h3 className="text-sm font-bold text-slate-900 group-hover:text-sky-700">AI & Tech</h3>
+              <p className="text-[11px] text-slate-500">Python, Machine Learning, Web Dev</p>
             </Link>
-            <Link href="/books?category=self-help-productivity" className="p-4 rounded-2xl bg-slate-900/80 hover:bg-sky-950/60 border border-slate-800 hover:border-sky-500/40 transition-all text-center space-y-1 group">
+            <Link href="/books?category=self-help-productivity" className="p-4 rounded-2xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition-all text-center space-y-1 group">
               <span className="text-2xl">⚡</span>
-              <h3 className="text-sm font-bold text-white group-hover:text-sky-400">Self-Help</h3>
-              <p className="text-[11px] text-slate-400">Habits, Mindsets, Focus</p>
+              <h3 className="text-sm font-bold text-slate-900 group-hover:text-sky-700">Self-Help</h3>
+              <p className="text-[11px] text-slate-500">Habits, Mindsets, Focus</p>
             </Link>
-            <Link href="/books?category=business-entrepreneurship" className="p-4 rounded-2xl bg-slate-900/80 hover:bg-sky-950/60 border border-slate-800 hover:border-sky-500/40 transition-all text-center space-y-1 group">
+            <Link href="/books?category=business-entrepreneurship" className="p-4 rounded-2xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition-all text-center space-y-1 group">
               <span className="text-2xl">💼</span>
-              <h3 className="text-sm font-bold text-white group-hover:text-sky-400">Business</h3>
-              <p className="text-[11px] text-slate-400">Startups, Finance, Investing</p>
+              <h3 className="text-sm font-bold text-slate-900 group-hover:text-sky-700">Business</h3>
+              <p className="text-[11px] text-slate-500">Startups, Finance, Investing</p>
             </Link>
-            <Link href="/books?category=fiction-literature" className="p-4 rounded-2xl bg-slate-900/80 hover:bg-sky-950/60 border border-slate-800 hover:border-sky-500/40 transition-all text-center space-y-1 group">
+            <Link href="/books?category=fiction-literature" className="p-4 rounded-2xl bg-slate-50 hover:bg-sky-50 border border-slate-200 hover:border-sky-300 transition-all text-center space-y-1 group">
               <span className="text-2xl">📖</span>
-              <h3 className="text-sm font-bold text-white group-hover:text-sky-400">Fiction</h3>
-              <p className="text-[11px] text-slate-400">Novels, Urdu Literature, Classics</p>
+              <h3 className="text-sm font-bold text-slate-900 group-hover:text-sky-700">Fiction</h3>
+              <p className="text-[11px] text-slate-500">Novels, Urdu Literature, Classics</p>
             </Link>
           </div>
         </div>
       </section>
 
       {/* Best Sellers Section */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <div className="flex items-center gap-2 text-amber-400 font-bold text-xs uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-amber-600 font-bold text-xs uppercase tracking-wider mb-1">
               <Award className="w-4 h-4" /> Customer Favorites
             </div>
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-white">Bestsellers in Pakistan</h2>
+            <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Bestsellers in Pakistan</h2>
           </div>
         </div>
 
