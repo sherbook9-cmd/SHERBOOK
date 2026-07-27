@@ -1,12 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Search, Truck, CheckCircle2, Clock, PackageCheck, AlertCircle, MapPin, Calendar } from 'lucide-react';
-
+import { Search, Truck, CheckCircle2, Clock, MapPin, Calendar, Loader2 } from 'lucide-react';
 import { API_BASE_URL } from '@/lib/api';
 
-export default function OrderTrackingPage() {
+function OrderTrackingContent() {
   const searchParams = useSearchParams();
   const initialNum = searchParams.get('num') || '';
   const [trackingNumber, setTrackingNumber] = useState(initialNum);
@@ -31,36 +30,28 @@ export default function OrderTrackingPage() {
         const data = await res.json();
         setOrderData(data);
       } else {
-        // Fallback demo tracking payload
-        setOrderData({
-          tracking_number: num.toUpperCase(),
-          customer_name: 'Muhammad Ali',
-          customer_phone: '0300-1234567',
-          shipping_address: 'House 42, Block B, Gulberg III',
-          city: 'Lahore',
-          total_amount: 4250.0,
-          order_status: 'shipped',
-          payment_method: 'easypaisa',
-          payment_status: 'paid',
-          created_at: new Date().toISOString()
-        });
+        setDemoTrackingData(num);
       }
     } catch (e) {
-      setOrderData({
-        tracking_number: num.toUpperCase(),
-        customer_name: 'Muhammad Ali',
-        customer_phone: '0300-1234567',
-        shipping_address: 'House 42, Block B, Gulberg III',
-        city: 'Lahore',
-        total_amount: 4250.0,
-        order_status: 'shipped',
-        payment_method: 'easypaisa',
-        payment_status: 'paid',
-        created_at: new Date().toISOString()
-      });
+      setDemoTrackingData(num);
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const setDemoTrackingData = (num: string) => {
+    setOrderData({
+      tracking_number: num.toUpperCase(),
+      customer_name: 'Muhammad Ali',
+      customer_phone: '0300-1234567',
+      shipping_address: 'House 42, Block B, Gulberg III',
+      city: 'Lahore',
+      total_amount: 4250.0,
+      order_status: 'shipped',
+      payment_method: 'easypaisa',
+      payment_status: 'paid',
+      created_at: new Date().toISOString()
+    });
   };
 
   const steps = [
@@ -86,8 +77,6 @@ export default function OrderTrackingPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
-      
-      {/* Header */}
       <div className="text-center space-y-3">
         <div className="w-14 h-14 rounded-2xl bg-sky-500/20 border border-sky-500/30 text-sky-400 flex items-center justify-center mx-auto">
           <Truck className="w-7 h-7" />
@@ -96,7 +85,6 @@ export default function OrderTrackingPage() {
         <p className="text-sm text-slate-400">Enter your SherBook tracking ID (e.g. SHER-123456) to check real-time delivery status.</p>
       </div>
 
-      {/* Input */}
       <div className="glass-panel p-3 rounded-2xl max-w-xl mx-auto flex gap-2 border-sky-500/30">
         <input
           type="text"
@@ -113,11 +101,8 @@ export default function OrderTrackingPage() {
         </button>
       </div>
 
-      {/* Results */}
       {orderData && (
         <div className="glass-panel p-8 rounded-3xl space-y-8 border-slate-800">
-          
-          {/* Status Bar Header */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
             <div>
               <span className="text-xs text-slate-400">Tracking ID</span>
@@ -134,7 +119,6 @@ export default function OrderTrackingPage() {
             </div>
           </div>
 
-          {/* Timeline Stepper */}
           <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 relative">
             {steps.map((step, idx) => {
               const isCompleted = idx <= currentIdx;
@@ -159,7 +143,6 @@ export default function OrderTrackingPage() {
             })}
           </div>
 
-          {/* Details Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-slate-800 text-xs">
             <div className="p-4 bg-slate-900/60 rounded-2xl space-y-2 border border-slate-800">
               <h3 className="font-bold text-white flex items-center gap-1.5">
@@ -179,10 +162,21 @@ export default function OrderTrackingPage() {
               <p className="text-slate-400">Estimated Delivery: <b className="text-sky-400">2-4 Business Days</b></p>
             </div>
           </div>
-
         </div>
       )}
-
     </div>
+  );
+}
+
+export default function OrderTrackingPage() {
+  return (
+    <Suspense fallback={
+      <div className="py-20 text-center text-slate-400">
+        <Loader2 className="w-8 h-8 animate-spin text-sky-400 mx-auto mb-2" />
+        Loading Tracking...
+      </div>
+    }>
+      <OrderTrackingContent />
+    </Suspense>
   );
 }

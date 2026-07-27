@@ -1,13 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { BookCard, Book } from '@/components/BookCard';
-import { Search, Sparkles, Filter, SlidersHorizontal, Loader2 } from 'lucide-react';
-
+import { Search, Sparkles, SlidersHorizontal, Loader2 } from 'lucide-react';
 import { API_BASE_URL } from '@/lib/api';
 
-export default function BooksCatalogPage() {
+function BooksCatalogContent() {
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get('q') || '';
   const initialCat = searchParams.get('category') || '';
@@ -112,17 +111,12 @@ export default function BooksCatalogPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8">
-      
-      {/* Header */}
       <div className="space-y-2">
         <h1 className="text-3xl font-extrabold text-white">Book Catalog</h1>
         <p className="text-sm text-slate-400">Search thousands of books across Pakistan with AI natural query support.</p>
       </div>
 
-      {/* Filter Bar */}
       <div className="glass-panel p-4 rounded-2xl flex flex-col md:flex-row gap-4 items-center justify-between border-slate-800">
-        
-        {/* Search Field */}
         <div className="relative flex-1 w-full">
           <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
           <input
@@ -141,7 +135,6 @@ export default function BooksCatalogPage() {
           </button>
         </div>
 
-        {/* AI Mode Toggle */}
         <button
           onClick={() => setIsAiMode(!isAiMode)}
           className={`px-3.5 py-2 rounded-xl border text-xs font-bold flex items-center gap-1.5 transition-all ${
@@ -154,7 +147,6 @@ export default function BooksCatalogPage() {
           <span>AI Vector Mode: {isAiMode ? 'ON' : 'OFF'}</span>
         </button>
 
-        {/* Sort Select */}
         <div className="flex items-center gap-2 w-full md:w-auto">
           <SlidersHorizontal className="w-4 h-4 text-slate-400" />
           <select
@@ -170,7 +162,6 @@ export default function BooksCatalogPage() {
         </div>
       </div>
 
-      {/* Category Pills */}
       <div className="flex items-center gap-2 overflow-x-auto pb-2">
         {categories.map((c) => (
           <button
@@ -187,7 +178,6 @@ export default function BooksCatalogPage() {
         ))}
       </div>
 
-      {/* Books Grid */}
       {isLoading ? (
         <div className="py-20 text-center flex flex-col items-center gap-3 text-slate-400">
           <Loader2 className="w-8 h-8 animate-spin text-sky-400" />
@@ -200,7 +190,19 @@ export default function BooksCatalogPage() {
           ))}
         </div>
       )}
-
     </div>
+  );
+}
+
+export default function BooksCatalogPage() {
+  return (
+    <Suspense fallback={
+      <div className="py-20 text-center text-slate-400">
+        <Loader2 className="w-8 h-8 animate-spin text-sky-400 mx-auto mb-2" />
+        Loading Catalog...
+      </div>
+    }>
+      <BooksCatalogContent />
+    </Suspense>
   );
 }
