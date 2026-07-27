@@ -1,0 +1,28 @@
+# Environment variables (Set secrets directly in HF Space settings or keep local)
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.pytest_cache/
+
+# Next.js / Node
+node_modules/
+.next/
+out/
+build/
+*.log
+
+# Database
+sherbook_fallback.db
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
